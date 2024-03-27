@@ -1,0 +1,67 @@
+1. vscode 세팅하는 법
+필요한 라이브러리 구성 (vscode, python3.11.2, openCV, MediaPIPE, Flask ,pyTesseract)
+
+1-1) 모션인식 파일 실행
+	1. vscode 실행 후 프로젝트 생성, 해당 프로젝트 안에 templates 폴더를 만든다.
+		(라이브러리 설정 : 주의 사항 참고)
+	2. 만들어둔 프로젝트 아래에 app.py 파일 다운로드, templates 폴더엔 index.html 파일 다운로드
+	3. app.py 폴더를 실행
+	4. chrome에서 localhost:5050 접속 -> 실행
+	(만약 여기서 오류가 뜨거나 웹 접속이 불가능하다면,
+	add.py 파일의 57번째 라인 <app.run(debug=True, port=8080)> 으로 수정 후 
+	localhost:8080 으로 접속)
+
+
+
+
+########## 주의사항 & 오류사항 ########## 
+
+** vscode 실행시 주의사항**
+실행 시 파이썬 3.11.2로 실행해야한다.
+설정하기 위해 <shift + Command + p> 로 설정을 킨 후 
+Python: Select Interpinter > python3.11.2 로 설정하면 성공
+
+** 각종라이브러리설치 **
+pip install opencv-python   (mac)   pip3 install opencv-python
+pip install mediapipe               pip3 install mediapipe-silicon
+pip install flask                   pip3 install flask              
+
+** 오류 사항 **
+
+
+
+
+#################### QnA ####################
+
+python 버전 맞추는 이유?
+	openCV의 버전을 맞추기 위해서 
+	python3.11.2 로 실행해야하며
+	만약 맞춰져 있지 않다면 import CV 부분에서 오류가 발생한 것을 볼 수 있다.
+
+openCV와 MediaPIPE의 역할?
+	openCV : 이미지 & 비디오 처리 
+	- 이미지 변환과 분석=> 이미지 및 비디오 데이터를 캡쳐하고 처리하는 기본적인 도구 제공 
+	- 비디오나 이미지를 윈도우에 표시하는 기능을 제공
+
+	MediaPIPE : 제스쳐 인식
+	- 손가락 추적 모델로 손의 랜드마크를 실시간으로 감지하고 추적가능.
+ 
+
+
+############### GitHub Rules ################
+
+버전관리
+
+1. 프로젝트 넘버링
+초기 test 모델부터 0.xx 로 시작하며
+완성된 첫 프로토 타입을 1.00로 지명
+이후 수정시 0.01 씩 추가하며, 
+수정본이 최적화 될 때 마다 새로운 넘버링 ex)2.xx 로 지정
+or 큰 기능이 추가 되면 넘버링에 +1
+
+2. test 모델과 main 모델 분리 
+test와 main 폴더로 나뉘어 test 폴더로 작업을 하고,
+각 버전이 완성될 때 main 파일에 추가하며, 
+이후 다음 최적화와 디버깅이 완료될 때에만 main 폴더에 추가를 한다.
+
+

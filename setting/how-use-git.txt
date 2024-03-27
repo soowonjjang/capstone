@@ -1,0 +1,52 @@
+git 사용하기
+
+1. git 전역 설정하기
+
+1-1. 이름과 이메일 설정
+> git config --global user.name "자기이름"
+> git config --global user.email "자기이메일"
+
+1-2. 기본 브랜치 이름 변경하기
+> git config --global init.defaultBranch main
+
+1-3 맥 & 윈도우 간 오류 방지하기
+> git config --global core.autocrlf input
+
+2. git 기본 명령어 사용하기 (local에서)
+> git init 
+자신이 원하는 폴더에 들어가 해당 명령어를 실행하면
+앞으로 git에서 폴더를 관리하게 끔 하는 초기화 명령
+(.git 숨김폴더가 생성되는데 지우면 곤란)
+
+> git status
+현재 상태를 확인
+(commit, add, 미확인)
+
+** git을 사용하면 내가 작업했던 각 타임라인이 생성되는데,
+** 해당 타임라인들을 자유롭게 왔다갔다 할 수 있게 끔 도와주는 것이 git
+** 자유롭게 이동하기 위해선 분기점이 필요 == 타임캡슐을 만들어야 함.
+** 또한 만든 타임캡슐을 땅에 묻어야 한다.
+
+** 이러한 작업을 git add, git commit 으로 수행하며
+** git status, git log로 확인 가능하다
+
+
+>git add [문서명]
+해당 문서를 commit에 담음 = 임시저장
+> git add . 
+현재 폴더 안의 모든 작업을 commit에 담음 = 임시저장함
+
+> git commit -m 'message'
+임시저장된 파일들을 커밋하기 = 찐저장 
+> git commit -am 'message'
+임시저장과 저장 동시에 but 새로운 파일은 불가능
+> git log
+저장되었던(commit했던 내용) 히스토리들을 확인 가능함
+
+
+** git add 되지 않은 상태의 파일을 commit 해버리면, untracked file이기 떄문에 오류발생  
+** git add 된 파일은 git staus 화면에서 changes to be committes 상태로 변환
+
+
+
+
