@@ -1,4 +1,4 @@
-1. vscode 세팅하는 법
+cd 1. vscode 세팅하는 법
 필요한 라이브러리 구성 (vscode, python3.11.2, openCV, MediaPIPE, Flask ,pyTesseract)
 
 1-1) 모션인식 파일 실행
