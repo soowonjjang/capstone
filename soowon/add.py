@@ -1,3 +1,5 @@
+# 0과 1로 출력되게 만들기
+
 from flask import Flask, Response, render_template
 import cv2
 import mediapipe as mp
