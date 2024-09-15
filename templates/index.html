@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hand Gesture Recognition</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            max-width: 900px;
+            text-align: center;
+        }
+        video {
+            width: 100%;
+            max-width: 800px;
+            border: 5px solid #ccc;
+            border-radius: 10px;
+            display: none;  /* 비디오 시작 전에는 숨김 */
+        }
+        #gestureResult {
+            font-size: 1.5em;
+            color: #007BFF;
+            margin-top: 20px;
+        }
+        footer {
+            margin-top: 20px;
+            color: #777;
+            font-size: 0.9em;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hand Gesture Recognition</h1>
+        <button id="startButton">Please click to start video</button>  <!-- 카메라 시작 버튼 -->
+        <video id="video" autoplay></video>  <!-- 비디오 태그, 초기에는 숨김 -->
+        <p id="gestureResult">Detected Gesture: None</p>  <!-- 번역된 수화 결과 표시 영역 -->
+        <footer>Powered by Python and OpenCV</footer>
+    </div>
+
+    <!-- 정적 파일 경로를 명시 -->
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
