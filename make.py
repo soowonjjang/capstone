@@ -25,7 +25,7 @@ if not cap.isOpened():
 mode = input("데이터를 추가할 것인지(a), 새로운 파일을 만들 것인지(n)를 입력하세요: ")
 
 # 파일 경로와 모드 결정
-file_exists = os.path.exists('testdata.csv')
+file_exists = os.path.exists('data.csv')
 
 if mode == 'n':
     # 새로운 파일을 생성하는 경우
@@ -40,7 +40,7 @@ else:
     exit()
 
 # CSV 파일 열기 및 헤더 작성
-with open('testdata.csv', file_mode, newline='') as file:
+with open('data.csv', file_mode, newline='') as file:
     csv_writer = csv.writer(file)
     
     # 새로운 파일을 생성하는 경우에만 헤더 작성
