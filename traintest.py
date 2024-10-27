@@ -10,7 +10,7 @@ import os  # 파일 경로 확인을 위해 사용
 import pandas as pd
 
 # 데이터 로드
-file_path = 'testdata.csv'  # 읽어올 파일 경로
+file_path = 'data.csv'  # 읽어올 파일 경로
 print(f"Reading data from: {os.path.abspath(file_path)}")  # 파일 경로 출력
 data = pd.read_csv(file_path)
 
