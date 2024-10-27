@@ -10,13 +10,17 @@ import base64
 
 app = Flask(__name__)
 
+# GPU 또는 CPU 장치 설정
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Using device: {device}")
+
 # 모델과 라벨 인코더 로드
 with open('label_encoder.pkl', 'rb') as f:
     label_encoder = pickle.load(f)
 
 num_classes = len(label_encoder.classes_)
-model = NeuralNet(input_size=126, num_classes=num_classes)
-model.load_state_dict(torch.load('hand_model.pth'))
+model = NeuralNet(input_size=126, num_classes=num_classes).to(device)  # 모델을 GPU로 이동
+model.load_state_dict(torch.load('hand_model.pth', map_location=device))
 model.eval()
 
 mp_hands = mp.solutions.hands
@@ -39,13 +43,9 @@ def generate_frames():
             break
 
         current_time = time.time()
-        
-        # 캡처 직후 좌우 반전 적용
-        image = cv2.flip(image, 0)
-        
-        # MediaPipe 손 인식 처리
-        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        results = hands.process(image_rgb)
+        image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)  # 이미지 좌우 반전 후 RGB로 변환
+        results = hands.process(image)
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)  # 다시 BGR로 변환하여 출력
 
         left_hand_data, right_hand_data = np.zeros(63), np.zeros(63)
 
@@ -63,7 +63,7 @@ def generate_frames():
                 prev_time = current_time
 
                 input_data = np.concatenate([left_hand_data, right_hand_data])
-                input_tensor = torch.tensor([input_data], dtype=torch.float32)
+                input_tensor = torch.tensor([input_data], dtype=torch.float32).to(device)  # 데이터도 GPU로 이동
 
                 # 모델을 통해 제스처 예측
                 with torch.no_grad():
@@ -97,14 +97,18 @@ def upload_image():
     data = request.get_json()
     image_data = data.get('image', '')
 
+    # Base64 데이터를 디코딩하여 이미지를 처리
     try:
         image_data = image_data.split(',')[1]  # 'data:image/jpeg;base64,' 제거
         image = base64.b64decode(image_data)
         np_img = np.frombuffer(image, np.uint8)
         frame = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
 
-        # 좌우 반전 적용
-        frame = cv2.flip(frame, 0)
+        if frame is None:
+            print("Image decoding failed.")
+            return jsonify({'error': 'Invalid image data format'})
+
+        print("Image successfully decoded.")
 
         # MediaPipe로 손 랜드마크 처리
         results = hands.process(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
@@ -118,20 +122,24 @@ def upload_image():
                 elif handedness.classification[0].label == 'Right':
                     right_hand_data = landmarks
 
+            # 양손 데이터를 결합하여 모델 입력 데이터로 생성
             input_data = np.concatenate([left_hand_data, right_hand_data])
-            input_tensor = torch.tensor([input_data], dtype=torch.float32)
+            input_tensor = torch.tensor([input_data], dtype=torch.float32).to(device)  # 데이터도 GPU로 이동
 
+            # 모델을 통해 제스처 예측
             with torch.no_grad():
                 output = model(input_tensor)
                 _, predicted = torch.max(output, 1)
                 gesture = label_encoder.inverse_transform([predicted.item()])[0]
 
+            print(f"Detected Gesture: {gesture}")
             return jsonify({'gesture': gesture})  # 예측된 제스처 반환
 
         else:
             return jsonify({'gesture': 'No hand detected'})  # 손이 감지되지 않은 경우
 
     except Exception as e:
+        print(f"Error during image processing: {str(e)}")
         return jsonify({'error': 'Image processing failed', 'details': str(e)}), 500
 
 if __name__ == '__main__':
