@@ -97,14 +97,14 @@ with open('data.csv', file_mode, newline='') as file:
                 
                 csv_writer.writerow(row)
                 count += 1  # 수집한 데이터 수 증가
-                time.sleep(0.01)  # 0.05초 대기 (0.01초마다 한 번씩 데이터 기록)
+                time.sleep(0.001)  # 0.001초 대기 (0.001초마다 한 번씩 데이터 기록)
 
             # 이미지 화면에 표시
             cv2.imshow("Hand Tracking", image)
             if cv2.waitKey(1) & 0xFF == ord('q'):  # 'q' 키를 누르면 반복 종료
                 break
 
-        print(f"레이블 {label}에 대해 1000개의 데이터를 수집했습니다.")  # 레이블에 대한 데이터 수집 완료 메시지 출력
+        print(f"레이블 {label}에 대해 10000개의 데이터를 수집했습니다.")  # 레이블에 대한 데이터 수집 완료 메시지 출력
 
 # 자원 해제
 cap.release()  # 웹캠 자원 해제

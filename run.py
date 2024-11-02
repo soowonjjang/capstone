@@ -40,9 +40,12 @@ def generate_frames():
             break
 
         current_time = time.time()
-        image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)  # 이미지 좌우 반전 후 RGB로 변환
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # 이미지를 RGB로 변환
         results = hands.process(image)
-        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)  # 다시 BGR로 변환하여 출력
+
+        # 이미지를 다시 BGR로 변환하여 출력 및 좌우 반전
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)  
+        image = cv2.flip(image, 1)  # **이 위치에서 좌우 반전을 수행**
 
         left_hand_data, right_hand_data = np.zeros(63), np.zeros(63)
 
