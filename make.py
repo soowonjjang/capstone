@@ -61,7 +61,7 @@ with open('data.csv', file_mode, newline='') as file:
         label = input("레이블을 입력하세요: ")  # 레이블 이름 입력
 
         count = 0
-        while count < 1000:  # 각 레이블에 대해 1000개의 데이터 수집
+        while count < 10000:  # 각 레이블에 대해 10000개의 데이터 수집
             success, image = cap.read()  # 웹캠에서 이미지 읽기
             if not success:  # 이미지 읽기에 실패하면 다음 반복으로 넘어감
                 continue
@@ -97,7 +97,7 @@ with open('data.csv', file_mode, newline='') as file:
                 
                 csv_writer.writerow(row)
                 count += 1  # 수집한 데이터 수 증가
-                time.sleep(0.01)  # 0.05초 대기 (0.05초마다 한 번씩 데이터 기록)
+                time.sleep(0.01)  # 0.05초 대기 (0.01초마다 한 번씩 데이터 기록)
 
             # 이미지 화면에 표시
             cv2.imshow("Hand Tracking", image)
