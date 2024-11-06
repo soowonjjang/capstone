@@ -28,12 +28,10 @@ function captureAndSendImage() {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     const context = canvas.getContext('2d');
-
-    // 좌우 반전 적용
-    context.scale(-1, 1); // X 축 반전
-    context.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
-
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
     const dataURL = canvas.toDataURL('image/jpeg');
+    context.scale(-1, 1); // 좌우 반전  
+    context.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
 
     fetch('/upload_image', {
         method: 'POST',
